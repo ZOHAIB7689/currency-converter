@@ -1,4 +1,3 @@
-
   "use client";
 
   import { useState, useEffect, ChangeEvent } from "react";
@@ -35,12 +34,11 @@
     const [exchangeRates, setExchangeRates] = useState<ExchangeRates>({});
     const [convertedAmount, setConvertedAmount] = useState<string>("0.00");
     const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
+    // Removed unused state variable 'error'
 
     useEffect(() => {
       const fetchExchangeRates = async () => {
         setLoading(true);
-        setError(null);
         try {
           const response = await fetch(
             "https://api.exchangerate-api.com/v4/latest/USD"
@@ -48,7 +46,7 @@
           const data = await response.json();
           setExchangeRates(data.rates);
         } catch (error) {
-          setError("Error fetching exchange rates.");
+          console.error("Error fetching exchange rates."); // Log the error instead of setting state
         } finally {
           setLoading(false);
         }
@@ -96,8 +94,6 @@
               <div className="flex justify-center items-center">
                 <Rings color="#4CAF50" height={80} width={80} />
               </div>
-            ) : error ? (
-              <div className="text-red-600 text-center">{error}</div>
             ) : (
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
